@@ -1,0 +1,7 @@
+firewall_subnet_cidr   = "10.10.20.0/28" # inside the LZ VPC 10.10.0.0/16, free of existing subnets (plan-time check)
+inspect_public_subnets = false           # true adds routes to LZ route tables: needs LZ owner approval
+egress_allowed_domains = []              # LZ VPC has no NAT: nothing to allow
+endpoint_az_count      = 1
+monthly_budget_usd     = 50
+engineer_trusted_principal_arns = []    # break-glass role principals; empty creates no role
+create_tier_security_groups     = false # web/app/db security groups for non-EKS workloads

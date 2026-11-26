@@ -1,0 +1,8 @@
+# image.repository, serviceAccount.irsaRoleArn and the queue URL are set at deploy time from Terraform outputs.
+env:
+  - name: AWS_REGION
+    value: "__REGION__"
+  - name: WALLETS_TABLE
+    value: "__NAME_PREFIX__-wallets"
+  - name: RECONCILIATION_QUEUE_URL
+    value: ""

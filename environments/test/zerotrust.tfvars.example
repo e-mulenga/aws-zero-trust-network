@@ -1,0 +1,8 @@
+firewall_subnet_cidr   = "10.10.20.0/28"
+inspect_public_subnets = false
+egress_allowed_domains = []
+endpoint_az_count      = 1
+enable_deletion_protection = false
+monthly_budget_usd     = 150
+engineer_trusted_principal_arns = []    # break-glass role principals; empty creates no role
+create_tier_security_groups     = false # web/app/db security groups for non-EKS workloads

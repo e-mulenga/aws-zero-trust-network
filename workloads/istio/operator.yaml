@@ -1,0 +1,24 @@
+# Istio demo profile. The Landing Zone VPC has no NAT gateway, so no pod can pull from Docker Hub.
+# Istio images are mirrored into the Landing Zone shared-platform ECR repository
+# (scripts/mirror_istio_images.sh) and referenced by full image path. __PLATFORM_REPO__ and
+# __ISTIO_TAG__ are rendered by workloads/deploy.sh from Terraform outputs.
+# The load balancer carries the workload tags.
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  profile: demo
+  values:
+    pilot:
+      image: "__PLATFORM_REPO__:pilot-__ISTIO_TAG__"
+    global:
+      proxy:
+        image: "__PLATFORM_REPO__:proxyv2-__ISTIO_TAG__"
+      proxy_init:
+        image: "__PLATFORM_REPO__:proxyv2-__ISTIO_TAG__"
+  components:
+    ingressGateways:
+      - name: istio-ingressgateway
+        enabled: true
+        k8s:
+          serviceAnnotations:
+            service.beta.kubernetes.io/aws-load-balancer-additional-resource-tags: Stack=zerotrust,ManagedBy=terraform

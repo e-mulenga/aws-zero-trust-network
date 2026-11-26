@@ -1,0 +1,3 @@
+enable_dynamodb_replication   = false # true: global tables with a replica in eu-west-1 (DR)
+enable_deletion_protection    = false
+enable_point_in_time_recovery = true

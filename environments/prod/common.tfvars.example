@@ -1,0 +1,11 @@
+# Copy to common.tfvars (git-ignored). Values from the Landing Zone owner.
+landing_zone_state_bucket = "<landing-zone-state-bucket>"
+landing_zone_state_key    = "<landing-zone-state-key>"
+landing_zone_state_region = "<landing-zone-state-bucket-region>"
+
+environment  = "prod"
+primary_region   = "af-south-1"
+dr_region      = "eu-west-1"
+owner       = "<owner>"
+cost_center = "<cost-center>"
+require_cmk = true # prod: customer-managed keys where governance requires

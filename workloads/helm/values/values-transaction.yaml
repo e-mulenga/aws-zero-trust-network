@@ -1,0 +1,10 @@
+# image.repository and serviceAccount.irsaRoleArn are set at deploy time from Terraform outputs.
+env:
+  - name: AWS_REGION
+    value: "__REGION__"
+  - name: TRANSACTIONS_TABLE
+    value: "__NAME_PREFIX__-transactions"
+  - name: EVENT_BUS_NAME
+    value: "__NAME_PREFIX__-events"
+  - name: WALLET_SERVICE_URL
+    value: "http://wallet-service:8000"

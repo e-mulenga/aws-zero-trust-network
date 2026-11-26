@@ -1,0 +1,5 @@
+cluster_version         = "1.35"
+node_instance_types     = ["t3.medium"]
+node_desired_size       = 2
+zero_trust_private_api  = true
+tag_landing_zone_subnets = true # additive aws_ec2_tag on LZ subnets (ELB discovery); false if the LZ tags them

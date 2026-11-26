@@ -1,0 +1,56 @@
+name: ci
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - stack: cluster
+            dir: infra/baseline/cluster
+          - stack: data
+            dir: infra/baseline/data
+          - stack: zerotrust
+            dir: infra/zerotrust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "~> 1.13"
+          terraform_wrapper: false
+      - name: Check Terraform formatting
+        run: terraform fmt -check -recursive infra
+      - name: Validate ${{ matrix.stack }} (no backend, no credentials)
+        working-directory: ${{ matrix.dir }}
+        run: |
+          terraform init -backend=false -input=false
+          terraform validate
+
+  python:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run unit tests
+        run: python3 -I -m unittest discover -s tests -v
+      - name: Syntax-check shell scripts
+        shell: bash
+        run: |
+          shopt -s nullglob
+          scripts=(scripts/*.sh)
+          for f in "${scripts[@]}"; do
+            bash -n "$f"
+          done
+          if [ -f workloads/deploy.sh ]; then
+            bash -n workloads/deploy.sh
+          fi
